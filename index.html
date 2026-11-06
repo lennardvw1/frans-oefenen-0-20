@@ -1,0 +1,840 @@
+# Franse Getallen & Woordenlijst Oefenapp
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franse Getallen & Woordenlijst Oefenen</title>
+    <!-- Tailwind CSS voor een moderne en responsieve UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts voor strakke typografie -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Flitskaart omdraai-animatie */
+        .perspective {
+            perspective: 1000px;
+        }
+        .card-inner {
+
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-10 shadow-sm">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white p-2 rounded-lg shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 id="app-title" class="text-xl font-bold tracking-tight text-slate-900">Les Chiffres 0-20</h1>
+                    <p id="app-subtitle" class="text-xs text-slate-500">Leer en oefen Franse getallen</p>
+                </div>
+            </div>
+            
+            <!-- Navigatie Tabs -->
+            <nav class="flex bg-slate-100 p-1 rounded-xl w-full sm:w-auto overflow-x-auto">
+                <button onclick="switchTab('study')" id="tab-study" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm whitespace-nowrap">
+                    Studeren
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap">
+                    Quiz
+
+                </button>
+                <button onclick="switchTab('write')" id="tab-write" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap">
+                    Schrijven
+                </button>
+                <button onclick="switchTab('maker')" id="tab-maker" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap flex items-center gap-1">
+                    <span class="text-blue-500 font-bold">+</span> Set Maker
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 flex-grow">
+        
+        <!-- Notificatie/Feedback Box -->
+        <div id="feedback-toast" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-sm transition-all duration-300 transform translate-y-10 opacity-0">
+            <span id="toast-icon"></span>
+            <p id="toast-message" class="text-sm font-medium"></p>
+        </div>
+
+
+        <!-- Status Bar voor Actieve Set -->
+        <div id="active-set-banner" class="hidden max-w-md mx-auto mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Je oefent nu met je <strong>eigen gemaakte woordenlijst</strong>!</span>
+            </div>
+            <button onclick="resetToDefault()" class="text-emerald-600 hover:text-emerald-900 underline">Herstel Cijfers</button>
+        </div>
+
+        <!-- ================= STUDY TAB ================= -->
+        <section id="view-study" class="space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="text-2xl font-bold text-slate-900">Flitskaarten</h2>
+                <p class="text-slate-500 text-sm">Klik op de kaart om de Franse vertaling te zien. Gebruik de knoppen eronder om te navigeren.</p>
+            </div>
+
+            <!-- Flitskaart element -->
+            <div class="max-w-md mx-auto perspective h-72 cursor-pointer" onclick="toggleCard()">
+                <div id="flashcard" class="card-inner w-full h-full relative rounded-2xl shadow-md border border-slate-200 bg-white">
+
+                    <!-- Voorkant (Cijfer / Nederlands woord) -->
+                    <div class="card-front absolute inset-0 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-white to-slate-50 rounded-2xl">
+                        <span id="study-label-front" class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Getal</span>
+                        <span id="study-number" class="text-4xl sm:text-6xl font-extrabold text-blue-600 text-center px-4 break-words max-w-full">0</span>
+                        <span class="text-xs text-slate-400 mt-8 bg-slate-100 px-3 py-1 rounded-full">Klik om om te draaien</span>
+                    </div>
+                    <!-- Achterkant (Frans Woord) -->
+                    <div class="card-back absolute inset-0 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl">
+                        <span class="text-xs font-semibold text-blue-200 uppercase tracking-wider mb-2">Frans</span>
+                        <span id="study-french" class="text-4xl sm:text-5xl font-bold tracking-tight text-center px-4 break-words max-w-full">zéro</span>
+                        <span class="text-xs text-blue-200/80 mt-8 bg-white/10 px-3 py-1 rounded-full">Klik om terug te draaien</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Besturing Flitskaarten -->
+            <div class="flex flex-col items-center justify-center gap-3 max-w-md mx-auto">
+                <div class="flex items-center justify-between w-full gap-3">
+                    <button onclick="prevCard()" class="flex-1 py-3 px-4 bg-white border border-slate-200 rounded-xl font-medium text-slate-700 hover:bg-slate-50 active:bg-slate-100 transition-colors shadow-sm flex items-center justify-center gap-2 text-sm">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Vorige
+                    </button>
+                    <div class="text-sm font-semibold text-slate-500 bg-slate-200/60 px-4 py-3 rounded-full whitespace-nowrap">
+                        <span id="study-index">1</span> / <span id="study-total">21</span>
+                    </div>
+                    <button onclick="nextCard()" class="flex-1 py-3 px-4 bg-white border border-slate-200 rounded-xl font-medium text-slate-700 hover:bg-slate-50 active:bg-slate-100 transition-colors shadow-sm flex items-center justify-center gap-2 text-sm">
+                        Volgende
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Overzicht Grid -->
+            <div class="border-t border-slate-200 pt-8 mt-8">
+
+                <h3 id="overview-title" class="text-lg font-bold text-slate-900 mb-4 text-center">Snelkoppelingen Overzicht</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                    <div id="overview-grid" class="contents"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= QUIZ TAB ================= -->
+        <section id="view-quiz" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm max-w-xl mx-auto space-y-6">
+                <!-- Score en Voortgang -->
+                <div class="flex items-center justify-between text-sm">
+                    <span class="font-semibold text-slate-500">Vraag <span id="quiz-progress-current">1</span>/<span id="quiz-progress-total">10</span></span>
+                    <span class="font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">Score: <span id="quiz-score">0</span></span>
+                </div>
+                
+                <!-- Voortgangsbalk -->
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-blue-600 h-full w-[10%] transition-all duration-300"></div>
+
+                </div>
+
+                <!-- De Vraag -->
+                <div class="text-center py-4 space-y-2">
+                    <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Wat is het Franse woord voor:</p>
+                    <h3 id="quiz-question-title" class="text-3xl sm:text-5xl font-extrabold text-slate-900 px-4 break-words">7</h3>
+                </div>
+
+                <!-- Antwoord Opties -->
+                <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Dynamisch ingevuld -->
+                </div>
+
+                <!-- Volgende Knop -->
+                <button id="btn-quiz-next" onclick="nextQuizQuestion()" class="hidden w-full py-3.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-md flex items-center justify-center gap-2">
+                    Volgende Vraag
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= WRITE TAB ================= -->
+        <section id="view-write" class="hidden space-y-6">
+            <div class="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm max-w-xl mx-auto space-y-6">
+                <!-- Voortgang -->
+                <div class="flex items-center justify-between text-sm">
+                    <span class="font-semibold text-slate-500">Vraag <span id="write-progress-current">1</span>/<span id="write-progress-total">10</span></span>
+                    <span class="font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Correct: <span id="write-score">0</span></span>
+                </div>
+
+                <!-- Vraag Stelling -->
+                <div class="text-center py-4 space-y-1">
+                    <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Typ het Franse woord voor:</p>
+                    <h3 id="write-question-title" class="text-3xl sm:text-6xl font-extrabold text-slate-900 px-4 break-words">12</h3>
+                </div>
+
+
+                <!-- Input Veld -->
+                <div class="space-y-3">
+                    <input type="text" id="write-input" autocomplete="off" spellcheck="false" placeholder="Typ hier het Franse woord..." 
+                           class="w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:outline-none text-center font-semibold text-lg transition-colors"
+                           onkeyup="handleWriteKey(event)">
+                    
+                    <!-- Resultaat Feedback -->
+                    <div id="write-feedback" class="hidden p-4 rounded-xl text-sm font-medium text-center transition-all duration-200"></div>
+                </div>
+
+                <!-- Actie Knoppen -->
+                <div class="flex gap-3">
+                    <button id="btn-write-check" onclick="checkWriteAnswer()" class="flex-1 py-3.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors shadow-md">
+                        Controleer
+                    </button>
+                    <button id="btn-write-next" onclick="nextWriteQuestion()" class="hidden flex-1 py-3.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-md">
+                        Volgende
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SET MAKER TAB ================= -->
+        <section id="view-maker" class="hidden space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="text-2xl font-bold text-slate-900">Eigen Woordenlijst Maker</h2>
+                <p class="text-slate-500 text-sm">Creëer je eigen aangepaste set met Franse woorden en de Nederlandse betekenis om deze direct te oefenen.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm max-w-xl mx-auto space-y-4">
+                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    Nieuw woord toevoegen
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Nederlandse Betekenis (of cijfer)</label>
+                        <input type="text" id="input-custom-dutch" placeholder="Bijv. Appel / Hond / 21" autocomplete="off" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none font-medium text-sm transition-colors bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Franse Vertaling</label>
+                        <input type="text" id="input-custom-french" placeholder="Bijv. la pomme / le chien" autocomplete="off" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none font-medium text-sm transition-colors bg-slate-50/50">
+                    </div>
+                </div>
+                <button onclick="addCustomWord()" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-md flex items-center justify-center gap-2 text-sm">
+                    Voeg woord toe aan set
+                </button>
+            </div>
+
+            <!-- Lijst met huidige custom woorden -->
+            <div class="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm max-w-xl mx-auto space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Jouw Woordenlijst (<span id="custom-set-count">0</span> woorden)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Beheer je ingevoerde woorden hieronder.</p>
+
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btn-activate-custom" onclick="activateCustomSet()" class="hidden px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-colors">
+                            Lijst Activeren & Starten
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamische container voor toegevoegde kaarten -->
+                <div id="custom-words-list" class="max-h-64 overflow-y-auto divide-y divide-slate-100 pr-1">
+                    <div class="text-center py-8 text-slate-400 text-sm">
+                        <p>Je hebt nog geen eigen woorden toegevoegd.</p>
+                        <p class="text-xs text-slate-400/80 mt-1">Vul hierboven velden in om je eigen set te bouwen!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 px-6 text-center text-xs text-slate-400">
+        <p>Gemaakt voor interactief Frans leren &copy; 2026</p>
+    </footer>
+
+    <!-- App Logic Script -->
+    <script>
+        // Standaard Data: Getallen 0 tot 20
+        const numbersData = [
+            { num: 0, french: "zéro" },
+            { num: 1, french: "un" },
+            { num: 2, french: "deux" },
+            { num: 3, french: "trois" },
+            { num: 4, french: "quatre" },
+            { num: 5, french: "cinq" },
+            { num: 6, french: "six" },
+            { num: 7, french: "sept" },
+            { num: 8, french: "huit" },
+            { num: 9, french: "neuf" },
+
+            { num: 10, french: "dix" },
+            { num: 11, french: "onze" },
+            { num: 12, french: "douze" },
+            { num: 13, french: "treize" },
+            { num: 14, french: "quatorze" },
+            { num: 15, french: "quinze" },
+            { num: 16, french: "seize" },
+            { num: 17, french: "dix-sept" },
+            { num: 18, french: "dix-huit" },
+            { num: 19, french: "dix-neuf" },
+            { num: 20, french: "vingt" }
+        ];
+
+        // Custom sets state
+        let customData = [];
+        // Actieve dataset
+        let activeData = [...numbersData];
+        let isCustomActive = false;
+
+
+        // Studeren State
+        let currentStudyIndex = 0;
+        let isCardFlipped = false;
+
+        // Quiz State
+        let quizRound = 1;
+        let quizScore = 0;
+        let currentQuizItem = null;
+        let quizAnswered = false;
+        let totalQuizRounds = 10;
+
+        // Schrijf State
+        let writeRound = 1;
+        let writeScore = 0;
+        let currentWriteItem = null;
+        let writeAnswered = false;
+        let totalWriteRounds = 10;
+
+        // Initialisatie bij laden pagina
+
+        window.onload = function() {
+            refreshActiveDatasetState();
+        };
+
+        // Custom Toast Berichten
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('feedback-toast');
+            const msgEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+            
+            msgEl.innerText = message;
+            
+            if(type === 'success') {
+                toast.className = "fixed bottom-5 right-5 z-50 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-sm transition-all duration-300 transform translate-y-0 opacity-100";
+                iconEl.innerHTML = '✓';
+            } else if(type === 'error') {
+                toast.className = "fixed bottom-5 right-5 z-50 bg-rose-600 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-sm transition-all duration-300 transform translate-y-0 opacity-100";
+                iconEl.innerHTML = '✕';
+            } else {
+
+                toast.className = "fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-sm transition-all duration-300 transform translate-y-0 opacity-100";
+                iconEl.innerHTML = 'ℹ';
+            }
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-10');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+            toast.classList.remove('hidden');
+        }
+
+        // Tab wisselen navigatie
+        function switchTab(tabId) {
+            const tabs = ['study', 'quiz', 'write', 'maker'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const view = document.getElementById(`view-${t}`);
+                if (t === tabId) {
+                    btn.className = "flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm whitespace-nowrap";
+
+                    view.classList.remove('hidden');
+                } else {
+                    btn.className = "flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap";
+                    view.classList.add('hidden');
+                }
+            });
+
+            if (tabId === 'study') {
+                updateStudyCard();
+                renderOverviewGrid();
+            }
+            if (tabId === 'quiz') initQuiz();
+            if (tabId === 'write') initWrite();
+        }
+
+        // Update UI titels & banners gebaseerd op actieve set
+        function refreshActiveDatasetState() {
+            const banner = document.getElementById('active-set-banner');
+            const title = document.getElementById('app-title');
+
+            const subtitle = document.getElementById('app-subtitle');
+            const overviewTitle = document.getElementById('overview-title');
+            const labelFront = document.getElementById('study-label-front');
+
+            if (isCustomActive) {
+                banner.classList.remove('hidden');
+                title.innerText = "Ma Liste Personnalisée";
+                subtitle.innerText = "Je oefent nu met je eigen gemaakte woordenset";
+                overviewTitle.innerText = "Overzicht van jouw Woordenlijst";
+                labelFront.innerText = "Nederlands";
+            } else {
+                banner.classList.add('hidden');
+                title.innerText = "Les Chiffres 0-20";
+                subtitle.innerText = "Leer en oefen Franse getallen";
+                overviewTitle.innerText = "Snelkoppelingen Overzicht";
+                labelFront.innerText = "Getal";
+            }
+
+            totalQuizRounds = Math.min(10, activeData.length);
+
+            totalWriteRounds = Math.min(10, activeData.length);
+            document.getElementById('study-total').innerText = activeData.length;
+
+            currentStudyIndex = 0;
+            updateStudyCard();
+            renderOverviewGrid();
+        }
+
+        // ================= STUDY LOGIC =================
+        function updateStudyCard() {
+            if (activeData.length === 0) {
+                document.getElementById('study-number').innerText = "-";
+                document.getElementById('study-french').innerText = "Lijst is leeg";
+                document.getElementById('study-index').innerText = 0;
+                return;
+            }
+            const data = activeData[currentStudyIndex];
+            document.getElementById('study-number').innerText = data.num;
+            document.getElementById('study-french').innerText = data.french;
+
+            document.getElementById('study-index').innerText = currentStudyIndex + 1;
+            
+            const card = document.getElementById('flashcard');
+            card.classList.remove('card-flipped');
+            isCardFlipped = false;
+        }
+
+        function toggleCard() {
+            if (activeData.length === 0) return;
+            const card = document.getElementById('flashcard');
+            card.classList.toggle('card-flipped');
+            isCardFlipped = !isCardFlipped;
+        }
+
+        // Volgende/Vorige Besturing
+        function nextCard() {
+            if (activeData.length === 0) return;
+            currentStudyIndex = (currentStudyIndex + 1) % activeData.length;
+            updateStudyCard();
+
+        }
+
+        function prevCard() {
+            if (activeData.length === 0) return;
+            currentStudyIndex = (currentStudyIndex - 1 + activeData.length) % activeData.length;
+            updateStudyCard();
+        }
+
+        function selectCardDirectly(idx) {
+            currentStudyIndex = idx;
+            updateStudyCard();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderOverviewGrid() {
+            const grid = document.getElementById('overview-grid');
+            grid.innerHTML = '';
+            
+            if (activeData.length === 0) {
+
+                grid.innerHTML = '<p class="col-span-full text-center text-sm text-slate-400 py-4">Geen gegevens beschikbaar.</p>';
+                return;
+            }
+
+            activeData.forEach((item, index) => {
+                const btn = document.createElement('div');
+                btn.className = "p-3 bg-white border border-slate-200 rounded-xl flex flex-col justify-between items-center transition-all duration-150 shadow-sm relative group hover:border-blue-300 cursor-pointer";
+                btn.onclick = () => selectCardDirectly(index);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = "text-center w-full";
+                contentDiv.innerHTML = `
+                    <div class="text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate px-1">${item.num}</div>
+                    <div class="text-xs font-medium text-slate-400 capitalize truncate px-1">${item.french}</div>
+                `;
+                
+                btn.appendChild(contentDiv);
+                grid.appendChild(btn);
+            });
+
+        }
+
+        // ================= QUIZ LOGIC =================
+        function initQuiz() {
+            quizRound = 1;
+            quizScore = 0;
+            totalQuizRounds = Math.min(10, activeData.length);
+            document.getElementById('quiz-score').innerText = quizScore;
+            document.getElementById('quiz-progress-total').innerText = totalQuizRounds;
+            
+            if (activeData.length === 0) {
+                const container = document.getElementById('quiz-options-container');
+                document.getElementById('quiz-question-title').innerText = "Geen woorden";
+                container.innerHTML = `<p class="col-span-2 text-center text-slate-400 py-4">Voeg eerst woorden toe in de Set Maker tab!</p>`;
+                document.getElementById('btn-quiz-next').classList.add('hidden');
+                return;
+            }
+            setupQuizQuestion();
+        }
+
+
+        function setupQuizQuestion() {
+            quizAnswered = false;
+            document.getElementById('quiz-progress-current').innerText = quizRound;
+            document.getElementById('quiz-progress-bar').style.width = `${(quizRound / totalQuizRounds) * 100}%`;
+            document.getElementById('btn-quiz-next').classList.add('hidden');
+
+            const randomIndex = Math.floor(Math.random() * activeData.length);
+            currentQuizItem = activeData[randomIndex];
+            document.getElementById('quiz-question-title').innerText = currentQuizItem.num;
+
+            let optionsPool = [...new Set([...activeData.map(i => i.french), ...numbersData.map(i => i.french)])];
+            optionsPool = optionsPool.filter(item => item !== currentQuizItem.french);
+            
+            let options = [currentQuizItem.french];
+            const targetOptionsCount = Math.min(4, optionsPool.length + 1);
+            while (options.length < targetOptionsCount) {
+                const optIdx = Math.floor(Math.random() * optionsPool.length);
+                const optWord = optionsPool[optIdx];
+                if (!options.includes(optWord)) {
+
+                    options.push(optWord);
+                    optionsPool.splice(optIdx, 1);
+                }
+            }
+
+            options.sort(() => Math.random() - 0.5);
+
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+            options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 border-2 border-slate-200 hover:border-slate-300 rounded-xl font-semibold transition-all duration-150 hover:bg-slate-50 focus:outline-none active:scale-[0.99] break-words";
+                btn.innerText = option;
+                btn.onclick = () => selectQuizOption(btn, option);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectQuizOption(button, chosenValue) {
+
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const container = document.getElementById('quiz-options-container');
+            const buttons = container.getElementsByTagName('button');
+
+            if (chosenValue === currentQuizItem.french) {
+                button.className = "w-full text-left p-4 border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl font-semibold focus:outline-none break-words";
+                quizScore++;
+                document.getElementById('quiz-score').innerText = quizScore;
+                showToast("Goed gedaan!", "success");
+            } else {
+                button.className = "w-full text-left p-4 border-2 border-rose-500 bg-rose-50 text-rose-700 rounded-xl font-semibold focus:outline-none break-words";
+                showToast(`Helaas! Juiste antwoord: ${currentQuizItem.french}`, "error");
+                
+                for (let btn of buttons) {
+                    if (btn.innerText === currentQuizItem.french) {
+                        btn.className = "w-full text-left p-4 border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl font-semibold focus:outline-none break-words";
+                    }
+
+                }
+            }
+
+            for (let btn of buttons) {
+                btn.removeAttribute('onclick');
+                if (btn !== button && btn.innerText !== currentQuizItem.french) {
+                    btn.className = "w-full text-left p-4 border-2 border-slate-100 text-slate-400 rounded-xl font-semibold focus:outline-none opacity-50 break-words";
+                }
+            }
+
+            document.getElementById('btn-quiz-next').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            if (quizRound < totalQuizRounds) {
+                quizRound++;
+                setupQuizQuestion();
+            } else {
+                const container = document.getElementById('quiz-options-container');
+
+                container.innerHTML = `
+                    <div class="col-span-2 text-center py-6 space-y-4">
+                        <div class="text-4xl">🎉</div>
+                        <h4 class="text-xl font-bold">Quiz Afgerond!</h4>
+                        <p class="text-slate-500">Je eindscore is <span class="font-bold text-slate-800">${quizScore} van de ${totalQuizRounds}</span> goed.</p>
+                        <button onclick="initQuiz()" class="mt-4 px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-sm text-sm">
+                            Opnieuw Spelen
+                        </button>
+                    </div>
+                `;
+                document.getElementById('btn-quiz-next').classList.add('hidden');
+            }
+        }
+
+        // ================= WRITE LOGIC =================
+        function initWrite() {
+            writeRound = 1;
+            writeScore = 0;
+            totalWriteRounds = Math.min(10, activeData.length);
+
+            document.getElementById('write-score').innerText = writeScore;
+            document.getElementById('write-progress-total').innerText = totalWriteRounds;
+            
+            const input = document.getElementById('write-input');
+            input.classList.remove('hidden');
+
+            if (activeData.length === 0) {
+                document.getElementById('write-question-title').innerText = "Geen woorden";
+                input.classList.add('hidden');
+                document.getElementById('btn-write-check').classList.add('hidden');
+                return;
+            }
+            setupWriteQuestion();
+        }
+
+        function setupWriteQuestion() {
+            writeAnswered = false;
+            document.getElementById('write-progress-current').innerText = writeRound;
+            
+
+            const input = document.getElementById('write-input');
+            input.value = '';
+            input.disabled = false;
+            input.className = "w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:outline-none text-center font-semibold text-lg transition-colors";
+            
+            const feedback = document.getElementById('write-feedback');
+            feedback.classList.add('hidden');
+            feedback.className = "hidden p-4 rounded-xl text-sm font-medium text-center transition-all duration-200";
+
+            document.getElementById('btn-write-check').classList.remove('hidden');
+            document.getElementById('btn-write-next').classList.add('hidden');
+
+            const randomIndex = Math.floor(Math.random() * activeData.length);
+            currentWriteItem = activeData[randomIndex];
+            document.getElementById('write-question-title').innerText = currentWriteItem.num;
+            
+            setTimeout(() => input.focus(), 100);
+        }
+
+
+        function checkWriteAnswer() {
+            if (writeAnswered) return;
+            
+            const input = document.getElementById('write-input');
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = currentWriteItem.french.toLowerCase();
+            const feedback = document.getElementById('write-feedback');
+
+            if (!userAnswer) {
+                showToast("Typ eerst een antwoord in!", "info");
+                return;
+            }
+
+            writeAnswered = true;
+            input.disabled = true;
+            feedback.classList.remove('hidden');
+            document.getElementById('btn-write-check').classList.add('hidden');
+            document.getElementById('btn-write-next').classList.remove('hidden');
+
+
+            if (userAnswer === correctAnswer) {
+                writeScore++;
+                document.getElementById('write-score').innerText = writeScore;
+                input.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                feedback.classList.add('bg-emerald-50', 'text-emerald-700');
+                feedback.innerText = "✓ Uitstekend! Helemaal juist.";
+            } else {
+                input.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-700');
+                feedback.classList.add('bg-rose-50', 'text-rose-700');
+                feedback.innerHTML = `✕ Foutje. Het juiste antwoord is <span class="font-bold underline">${currentWriteItem.french}</span>.`;
+            }
+        }
+
+        function handleWriteKey(event) {
+            if (event.key === 'Enter') {
+                if (!writeAnswered) {
+                    checkWriteAnswer();
+                } else {
+                    nextWriteQuestion();
+
+                }
+            }
+        }
+
+        function nextWriteQuestion() {
+            if (writeRound < totalWriteRounds) {
+                writeRound++;
+                setupWriteQuestion();
+            } else {
+                const feedback = document.getElementById('write-feedback');
+                feedback.classList.remove('hidden');
+                feedback.className = "p-6 bg-slate-100 rounded-xl text-center space-y-4";
+                feedback.innerHTML = `
+                    <div class="text-3xl">🏆</div>
+                    <h4 class="text-lg font-bold">Schrijfoefening voltooid!</h4>
+                    <p class="text-slate-600">Je hebt <span class="font-bold text-slate-900">${writeScore} van de ${totalWriteRounds}</span> getallen/woorden foutloos geschreven.</p>
+                    <button onclick="initWrite()" class="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors shadow-sm text-sm">
+                        Nog een keer
+                    </button>
+
+                `;
+                document.getElementById('write-input').classList.add('hidden');
+                document.getElementById('btn-write-next').classList.add('hidden');
+                document.getElementById('btn-write-check').classList.add('hidden');
+            }
+        }
+
+        // ================= SET MAKER LOGIC =================
+        function addCustomWord() {
+            const dutchInput = document.getElementById('input-custom-dutch');
+            const frenchInput = document.getElementById('input-custom-french');
+            
+            const numValue = dutchInput.value.trim();
+            const frenchValue = frenchInput.value.trim();
+
+            if (!numValue || !frenchValue) {
+                showToast("Vul a.u.b. zowel de betekenis als de Franse vertaling in.", "error");
+                return;
+            }
+
+
+            customData.push({
+                num: numValue,
+                french: frenchValue
+            });
+
+            dutchInput.value = '';
+            frenchInput.value = '';
+            dutchInput.focus();
+
+            showToast(`"${frenchValue}" toegevoegd!`, "success");
+            renderCustomWordsList();
+        }
+
+        function deleteCustomWord(index) {
+            customData.splice(index, 1);
+            showToast("Woord verwijderd uit je set.", "info");
+            renderCustomWordsList();
+            
+            if (customData.length === 0 && isCustomActive) {
+
+                resetToDefault();
+            }
+        }
+
+        function renderCustomWordsList() {
+            const container = document.getElementById('custom-words-list');
+            const countEl = document.getElementById('custom-set-count');
+            const activateBtn = document.getElementById('btn-activate-custom');
+            
+            countEl.innerText = customData.length;
+
+            if (customData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 text-sm">
+                        <p>Je hebt nog geen eigen woorden toegevoegd.</p>
+                        <p class="text-xs text-slate-400/80 mt-1">Vul hierboven velden in om je eigen set te bouwen!</p>
+                    </div>
+                `;
+                activateBtn.classList.add('hidden');
+
+                return;
+            }
+
+            activateBtn.classList.remove('hidden');
+
+            container.innerHTML = '';
+            customData.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between py-3 px-2 hover:bg-slate-50 rounded-xl transition-colors gap-4";
+                row.innerHTML = `
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-slate-900 truncate">${item.french}</p>
+                        <p class="text-xs text-slate-400 truncate">Betekenis: ${item.num}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="deleteCustomWord(${index})" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors" title="Verwijder dit woord">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function activateCustomSet() {
+            if (customData.length === 0) {
+                showToast("Voeg eerst woorden toe voordat je de set activeert!", "error");
+                return;
+            }
+            activeData = [...customData];
+            isCustomActive = true;
+            
+            refreshActiveDatasetState();
+            showToast("Je aangepaste woordenlijst is nu geactiveerd!", "success");
+            switchTab('study');
+        }
+
+
+        function resetToDefault() {
+            activeData = [...numbersData];
+            isCustomActive = false;
+            
+            refreshActiveDatasetState();
+            showToast("Standaard getallen 0-20 hersteld.", "info");
+            switchTab('study');
+        }
+    </script>
+</body>
+</html>
+
+
