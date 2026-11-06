@@ -1,4 +1,4 @@
-# Franse Getallen & Woordenlijst Oefenapp
+
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -64,6 +64,9 @@
                 <button onclick="switchTab('write')" id="tab-write" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap">
                     Schrijven
                 </button>
+                <button onclick="switchTab('arcade')" id="tab-arcade" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap flex items-center gap-1">
+                    🎮 Arcade Games
+                </button>
                 <button onclick="switchTab('maker')" id="tab-maker" class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap flex items-center gap-1">
                     <span class="text-blue-500 font-bold">+</span> Set Maker
                 </button>
@@ -76,10 +79,10 @@
         
         <!-- Notificatie/Feedback Box -->
         <div id="feedback-toast" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-sm transition-all duration-300 transform translate-y-10 opacity-0">
+
             <span id="toast-icon"></span>
             <p id="toast-message" class="text-sm font-medium"></p>
         </div>
-
 
         <!-- Status Bar voor Actieve Set -->
         <div id="active-set-banner" class="hidden max-w-md mx-auto mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between shadow-sm">
@@ -97,10 +100,10 @@
                 <p class="text-slate-500 text-sm">Klik op de kaart om de Franse vertaling te zien. Gebruik de knoppen eronder om te navigeren.</p>
             </div>
 
+
             <!-- Flitskaart element -->
             <div class="max-w-md mx-auto perspective h-72 cursor-pointer" onclick="toggleCard()">
                 <div id="flashcard" class="card-inner w-full h-full relative rounded-2xl shadow-md border border-slate-200 bg-white">
-
                     <!-- Voorkant (Cijfer / Nederlands woord) -->
                     <div class="card-front absolute inset-0 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-white to-slate-50 rounded-2xl">
                         <span id="study-label-front" class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Getal</span>
@@ -117,10 +120,10 @@
             </div>
 
             <!-- Besturing Flitskaarten -->
+
             <div class="flex flex-col items-center justify-center gap-3 max-w-md mx-auto">
                 <div class="flex items-center justify-between w-full gap-3">
                     <button onclick="prevCard()" class="flex-1 py-3 px-4 bg-white border border-slate-200 rounded-xl font-medium text-slate-700 hover:bg-slate-50 active:bg-slate-100 transition-colors shadow-sm flex items-center justify-center gap-2 text-sm">
-
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
@@ -138,9 +141,9 @@
                 </div>
             </div>
 
+
             <!-- Overzicht Grid -->
             <div class="border-t border-slate-200 pt-8 mt-8">
-
                 <h3 id="overview-title" class="text-lg font-bold text-slate-900 mb-4 text-center">Snelkoppelingen Overzicht</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                     <div id="overview-grid" class="contents"></div>
@@ -158,9 +161,9 @@
                 </div>
                 
                 <!-- Voortgangsbalk -->
+
                 <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                     <div id="quiz-progress-bar" class="bg-blue-600 h-full w-[10%] transition-all duration-300"></div>
-
                 </div>
 
                 <!-- De Vraag -->
@@ -178,9 +181,9 @@
                 <button id="btn-quiz-next" onclick="nextQuizQuestion()" class="hidden w-full py-3.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-md flex items-center justify-center gap-2">
                     Volgende Vraag
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
-
                 </button>
             </div>
         </section>
@@ -198,8 +201,8 @@
                 <div class="text-center py-4 space-y-1">
                     <p class="text-slate-500 text-sm font-medium uppercase tracking-wider">Typ het Franse woord voor:</p>
                     <h3 id="write-question-title" class="text-3xl sm:text-6xl font-extrabold text-slate-900 px-4 break-words">12</h3>
-                </div>
 
+                </div>
 
                 <!-- Input Veld -->
                 <div class="space-y-3">
@@ -218,9 +221,168 @@
                     </button>
                     <button id="btn-write-next" onclick="nextWriteQuestion()" class="hidden flex-1 py-3.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-md">
                         Volgende
+
                     </button>
                 </div>
+            </div>
+        </section>
 
+        <!-- ================= ARCADE TAB ================= -->
+        <section id="view-arcade" class="hidden space-y-6">
+            <!-- Game Selection Hub -->
+            <div id="arcade-dashboard" class="space-y-6">
+                <div class="text-center max-w-xl mx-auto space-y-2">
+                    <h2 class="text-2xl font-bold text-slate-900">🎮 Echte Educatieve Arcade Games</h2>
+                    <p class="text-slate-500 text-sm">Voltooi levels in actievolle spellen. Elk level vereist het correct oplossen van een Franse taaluitdaging om door te gaan!</p>
+                </div>
+
+                <!-- 3 Grote Echte Games Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Game 1: Snake Levels -->
+                    <div onclick="launchRealGame('snake')" class="bg-white p-6 border-2 border-slate-200 rounded-2xl shadow-sm hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group">
+                        <div>
+
+                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4">🐍</div>
+                            <h3 class="font-bold text-xl text-slate-900 group-hover:text-emerald-600 transition-colors">Snake Levels</h3>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed">Eet appels om te groeien. Zodra de target is bereikt, verschijnt de level-poort met een Franse vraag!</p>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center text-xs font-bold text-emerald-600">
+                            <span>Speel Nu</span>
+                            <span>→</span>
+                        </div>
+                    </div>
+
+                    <!-- Game 2: Platformer Adventure -->
+                    <div onclick="launchRealGame('platformer')" class="bg-white p-6 border-2 border-slate-200 rounded-2xl shadow-sm hover:border-indigo-500 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4">🏃</div>
+                            <h3 class="font-bold text-xl text-slate-900 group-hover:text-indigo-600 transition-colors">French Jumper</h3>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed">Ren en spring over uitdagende platformen heen om de vlag te bereiken. Nu met een gegarandeerd oplosbaar, procedureel veranderend leveldesign!</p>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center text-xs font-bold text-indigo-600">
+                            <span>Speel Nu</span>
+
+                            <span>→</span>
+                        </div>
+                    </div>
+
+                    <!-- Game 3: Tower Defense -->
+                    <div onclick="launchRealGame('td')" class="bg-white p-6 border-2 border-slate-200 rounded-2xl shadow-sm hover:border-amber-500 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-4">🏰</div>
+                            <h3 class="font-bold text-xl text-slate-900 group-hover:text-amber-600 transition-colors">Tower Defense Pro</h3>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed">Sleep verschillende soorten verdedigingstorens op het veld, upgrade ze en behoud je verdediging tussen opeenvolgende waves!</p>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center text-xs font-bold text-amber-600">
+                            <span>Speel Nu</span>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Active Arcade Game Arena Screen -->
+            <div id="arcade-arena" class="hidden bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm max-w-3xl mx-auto space-y-4 relative">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <button onclick="exitArcadeArena()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1 bg-slate-100 px-3 py-1.5 rounded-lg">
+                        ← Verlaat Spel
+                    </button>
+                    <div class="text-center">
+                        <h3 id="arcade-game-title" class="font-bold text-slate-900 text-lg">Game Name</h3>
+                        <p class="text-xs text-slate-400 font-medium">Wave / Level: <span id="arcade-game-level">1</span></p>
+                    </div>
+                    <div class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">Score: <span id="arcade-game-score">0</span></div>
+                </div>
+
+                <!-- Tower Defense Upgrade Paneel -->
+                <div id="td-upgrade-panel" class="hidden bg-amber-50 border border-amber-200 p-3 rounded-xl flex items-center justify-between gap-4 text-xs font-medium">
+                    <div>
+                        <span class="font-bold text-amber-800" id="td-selected-tower-name">Toren</span> 
+                        (Level <span id="td-selected-tower-lvl">1</span>) 
+                        - Bereik: <span id="td-selected-tower-range">0</span>, Schade: <span id="td-selected-tower-dmg">0</span>
+
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="upgradeSelectedTower()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-lg font-bold shadow-sm">
+                            Upgrade (+25% Stats) - <span id="td-upgrade-cost">€40</span>
+                        </button>
+                        <button onclick="deselectTower()" class="bg-slate-200 text-slate-600 px-2 py-1.5 rounded-lg">Sluiten</button>
+                    </div>
+                </div>
+
+                <!-- Canvas Game Viewport + Tower Defense Shop Sidebar Wrapper -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <!-- Shop Elementen voor TD -->
+                    <div id="td-shop-sidebar" class="hidden w-full md:w-44 bg-slate-100 p-3 rounded-xl border border-slate-200 flex flex-row md:flex-col gap-2 justify-center select-none">
+                        <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider text-center hidden md:block mb-1">Sleep Torens</p>
+                        
+                        <div id="shop-archer" draggable="true" ondragstart="handleDragStart(event, 'archer')" class="flex-1 bg-white p-2 border border-slate-200 rounded-lg cursor-grab hover:border-blue-400 active:cursor-grabbing text-center">
+                            <span class="text-lg">🏹</span>
+                            <div class="text-xs font-bold text-slate-800">Archer</div>
+                            <div class="text-[10px] text-amber-600 font-bold">€50</div>
+
+                        </div>
+
+                        <div id="shop-cannon" draggable="true" ondragstart="handleDragStart(event, 'cannon')" class="flex-1 bg-white p-2 border border-slate-200 rounded-lg cursor-grab hover:border-red-400 active:cursor-grabbing text-center">
+                            <span class="text-lg">💣</span>
+                            <div class="text-xs font-bold text-slate-800">Cannon</div>
+                            <div class="text-[10px] text-amber-600 font-bold">€90</div>
+                        </div>
+
+                        <div id="shop-ice" draggable="true" ondragstart="handleDragStart(event, 'ice')" class="flex-1 bg-white p-2 border border-slate-200 rounded-lg cursor-grab hover:border-teal-400 active:cursor-grabbing text-center">
+                            <span class="text-lg">❄️</span>
+                            <div class="text-xs font-bold text-slate-800">Ice Beam</div>
+                            <div class="text-[10px] text-amber-600 font-bold">€120</div>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Container -->
+                    <div class="relative flex-1 bg-slate-950 rounded-xl overflow-hidden flex flex-col items-center justify-center select-none shadow-inner"
+                         ondragover="allowDrop(event)" ondrop="handleCanvasDrop(event)">
+                        <canvas id="gameCanvas" width="500" height="350" class="block bg-slate-900 max-w-full h-auto"></canvas>
+
+                        
+                        <!-- Game Over / Intro Screen overlay inside canvas container -->
+                        <div id="game-overlay-screen" class="absolute inset-0 bg-slate-900/90 z-20 flex flex-col items-center justify-center text-center p-6 text-white space-y-4 hidden">
+                            <h4 id="overlay-screen-title" class="text-2xl font-bold">Game Status</h4>
+                            <p id="overlay-screen-desc" class="text-sm text-slate-300 max-w-sm">Druk op de knop om te starten.</p>
+                            <button id="overlay-screen-btn" class="px-6 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm shadow-md hover:bg-blue-500 transition-all"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile / On Screen Control Pad -->
+                <div id="game-controls-pad" class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex justify-center items-center gap-4">
+                     <p class="text-xs text-slate-400 font-medium text-center" id="control-hint-text">Gebruik de pijltjestoetsen of de knoppen hieronder.</p>
+                </div>
+                <div id="dpad-container" class="flex justify-center items-center gap-1 max-w-xs mx-auto hidden">
+                    <div class="grid grid-cols-3 gap-2">
+                        <div></div>
+                        <button onclick="triggerDpad('up')" class="w-12 h-12 bg-slate-200 active:bg-slate-300 text-slate-800 font-bold rounded-xl flex items-center justify-center shadow-sm">▲</button>
+                        <div></div>
+
+                        <button onclick="triggerDpad('left')" class="w-12 h-12 bg-slate-200 active:bg-slate-300 text-slate-800 font-bold rounded-xl flex items-center justify-center shadow-sm">◀</button>
+                        <button id="action-center-btn" class="w-12 h-12 bg-slate-300 text-slate-800 font-bold rounded-xl flex items-center justify-center text-xs shadow-sm">•</button>
+                        <button onclick="triggerDpad('right')" class="w-12 h-12 bg-slate-200 active:bg-slate-300 text-slate-800 font-bold rounded-xl flex items-center justify-center shadow-sm">▶</button>
+                        <div></div>
+                        <button onclick="triggerDpad('down')" class="w-12 h-12 bg-slate-200 active:bg-slate-300 text-slate-800 font-bold rounded-xl flex items-center justify-center shadow-sm">▼</button>
+                        <div></div>
+                    </div>
+                </div>
+
+                <!-- Blooket Level Transition Interruption Question Overlay -->
+                <div id="arcade-question-overlay" class="hidden absolute inset-0 bg-slate-900/95 z-50 rounded-2xl p-6 flex flex-col justify-center items-center space-y-6">
+                    <div class="text-center space-y-2 max-w-md">
+                        <span class="text-xs font-bold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full uppercase tracking-widest animate-pulse">🔒 LEVEL DOOR LOCK 🔒</span>
+                        <h4 class="text-base text-slate-300 font-medium pt-2">Om door te gaan naar het volgende level, los deze Franse opgave op:</h4>
+                        <div id="arcade-question-text" class="text-4xl font-extrabold text-white tracking-tight py-4">7</div>
+                    </div>
+                    <div id="arcade-question-choices" class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md mx-auto">
+                        <!-- Options dynamically generated here -->
+                    </div>
+
+                </div>
             </div>
         </section>
 
@@ -239,8 +401,8 @@
                     Nieuw woord toevoegen
                 </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
 
+                    <div>
                         <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Nederlandse Betekenis (of cijfer)</label>
                         <input type="text" id="input-custom-dutch" placeholder="Bijv. Appel / Hond / 21" autocomplete="off" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none font-medium text-sm transition-colors bg-slate-50/50">
                     </div>
@@ -259,8 +421,8 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                     <div>
                         <h3 class="text-base font-bold text-slate-900">Jouw Woordenlijst (<span id="custom-set-count">0</span> woorden)</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Beheer je ingevoerde woorden hieronder.</p>
 
+                        <p class="text-xs text-slate-400 mt-0.5">Beheer je ingevoerde woorden hieronder.</p>
                     </div>
                     <div class="flex gap-2">
                         <button id="btn-activate-custom" onclick="activateCustomSet()" class="hidden px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-colors">
@@ -279,8 +441,8 @@
             </div>
         </section>
 
-    </main>
 
+    </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 px-6 text-center text-xs text-slate-400">
@@ -299,9 +461,9 @@
             { num: 5, french: "cinq" },
             { num: 6, french: "six" },
             { num: 7, french: "sept" },
+
             { num: 8, french: "huit" },
             { num: 9, french: "neuf" },
-
             { num: 10, french: "dix" },
             { num: 11, french: "onze" },
             { num: 12, french: "douze" },
@@ -315,45 +477,64 @@
             { num: 20, french: "vingt" }
         ];
 
-        // Custom sets state
+        // State variabelen
         let customData = [];
-        // Actieve dataset
         let activeData = [...numbersData];
         let isCustomActive = false;
 
 
-        // Studeren State
         let currentStudyIndex = 0;
         let isCardFlipped = false;
 
-        // Quiz State
-        let quizRound = 1;
-        let quizScore = 0;
-        let currentQuizItem = null;
-        let quizAnswered = false;
-        let totalQuizRounds = 10;
+        let quizRound = 1; let quizScore = 0; let currentQuizItem = null; let quizAnswered = false; let totalQuizRounds = 10;
+        let writeRound = 1; let writeScore = 0; let currentWriteItem = null; let writeAnswered = false; let totalWriteRounds = 10;
 
-        // Schrijf State
-        let writeRound = 1;
-        let writeScore = 0;
-        let currentWriteItem = null;
-        let writeAnswered = false;
-        let totalWriteRounds = 10;
+        // Echte Game Engine State Variables
+        let currentGameType = ''; 
+        let gameCanvas = null;
+        let ctx = null;
+        let gameAnimationId = null;
+        let gameCurrentLevel = 1;
+        let mainGameScore = 0;
+        let isGameRunning = false;
 
-        // Initialisatie bij laden pagina
+        // Game State Containers
+        let snakeState = {};
+        let platformerState = {};
+        
 
-        window.onload = function() {
-            refreshActiveDatasetState();
+        // PERSISTENTE TOWER DEFENSE PRO STATE
+        let tdState = {
+            initialized: false,
+            path: [
+                {x: 0, y: 180}, {x: 120, y: 180}, {x: 120, y: 60}, 
+                {x: 280, y: 60}, {x: 280, y: 280}, {x: 420, y: 280}, {x: 420, y: 180}, {x: 500, y: 180}
+            ],
+            towers: [],
+            enemies: [],
+            gold: 150, 
+            baseHp: 10,
+            waveEnemiesLeft: 5,
+            enemiesSpawned: 0,
+            spawnCooldown: 0,
+            selectedTowerIndex: null,
+            draggedType: null
         };
 
-        // Custom Toast Berichten
+        window.onload = function() {
+
+            gameCanvas = document.getElementById('gameCanvas');
+            ctx = gameCanvas.getContext('2d');
+            refreshActiveDatasetState();
+            setupKeyboardListeners();
+            setupCanvasClickForTowerSelect();
+        };
+
         function showToast(message, type = 'info') {
             const toast = document.getElementById('feedback-toast');
             const msgEl = document.getElementById('toast-message');
             const iconEl = document.getElementById('toast-icon');
-            
             msgEl.innerText = message;
-            
             if(type === 'success') {
                 toast.className = "fixed bottom-5 right-5 z-50 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-sm transition-all duration-300 transform translate-y-0 opacity-100";
                 iconEl.innerHTML = '✓';
@@ -365,7 +546,6 @@
                 toast.className = "fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 max-w-sm transition-all duration-300 transform translate-y-0 opacity-100";
                 iconEl.innerHTML = 'ℹ';
             }
-
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-10');
                 setTimeout(() => toast.classList.add('hidden'), 300);
@@ -373,466 +553,773 @@
             toast.classList.remove('hidden');
         }
 
-        // Tab wisselen navigatie
         function switchTab(tabId) {
-            const tabs = ['study', 'quiz', 'write', 'maker'];
+            stopAllGames();
+            const tabs = ['study', 'quiz', 'write', 'maker', 'arcade'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
                 const view = document.getElementById(`view-${t}`);
                 if (t === tabId) {
                     btn.className = "flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm whitespace-nowrap";
-
                     view.classList.remove('hidden');
+
                 } else {
                     btn.className = "flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 whitespace-nowrap";
                     view.classList.add('hidden');
                 }
             });
-
-            if (tabId === 'study') {
-                updateStudyCard();
-                renderOverviewGrid();
-            }
+            if (tabId === 'study') { updateStudyCard(); renderOverviewGrid(); }
             if (tabId === 'quiz') initQuiz();
             if (tabId === 'write') initWrite();
         }
 
-        // Update UI titels & banners gebaseerd op actieve set
         function refreshActiveDatasetState() {
             const banner = document.getElementById('active-set-banner');
             const title = document.getElementById('app-title');
-
             const subtitle = document.getElementById('app-subtitle');
-            const overviewTitle = document.getElementById('overview-title');
-            const labelFront = document.getElementById('study-label-front');
-
-            if (isCustomActive) {
-                banner.classList.remove('hidden');
-                title.innerText = "Ma Liste Personnalisée";
-                subtitle.innerText = "Je oefent nu met je eigen gemaakte woordenset";
-                overviewTitle.innerText = "Overzicht van jouw Woordenlijst";
-                labelFront.innerText = "Nederlands";
-            } else {
-                banner.classList.add('hidden');
-                title.innerText = "Les Chiffres 0-20";
-                subtitle.innerText = "Leer en oefen Franse getallen";
-                overviewTitle.innerText = "Snelkoppelingen Overzicht";
-                labelFront.innerText = "Getal";
-            }
-
-            totalQuizRounds = Math.min(10, activeData.length);
-
-            totalWriteRounds = Math.min(10, activeData.length);
             document.getElementById('study-total').innerText = activeData.length;
+            if (isCustomActive) {
+                banner.classList.remove('hidden'); title.innerText = "Ma Liste Personnalisée"; subtitle.innerText = "Je oefent nu met je eigen gemaakte woordenset";
+            } else {
+                banner.classList.add('hidden'); title.innerText = "Les Chiffres 0-20"; subtitle.innerText = "Leer en oefen Franse getallen";
 
-            currentStudyIndex = 0;
-            updateStudyCard();
-            renderOverviewGrid();
+            }
+            currentStudyIndex = 0; updateStudyCard(); renderOverviewGrid();
         }
 
-        // ================= STUDY LOGIC =================
+        // ================= FLITSKAARTEN LOGIC =================
         function updateStudyCard() {
             if (activeData.length === 0) {
-                document.getElementById('study-number').innerText = "-";
-                document.getElementById('study-french').innerText = "Lijst is leeg";
-                document.getElementById('study-index').innerText = 0;
+                document.getElementById('study-number').innerText = "-"; document.getElementById('study-french').innerText = "Lijst is leeg";
                 return;
             }
             const data = activeData[currentStudyIndex];
             document.getElementById('study-number').innerText = data.num;
             document.getElementById('study-french').innerText = data.french;
-
             document.getElementById('study-index').innerText = currentStudyIndex + 1;
-            
-            const card = document.getElementById('flashcard');
-            card.classList.remove('card-flipped');
-            isCardFlipped = false;
         }
-
-        function toggleCard() {
-            if (activeData.length === 0) return;
-            const card = document.getElementById('flashcard');
-            card.classList.toggle('card-flipped');
-            isCardFlipped = !isCardFlipped;
-        }
-
-        // Volgende/Vorige Besturing
-        function nextCard() {
-            if (activeData.length === 0) return;
-            currentStudyIndex = (currentStudyIndex + 1) % activeData.length;
-            updateStudyCard();
-
-        }
-
-        function prevCard() {
-            if (activeData.length === 0) return;
-            currentStudyIndex = (currentStudyIndex - 1 + activeData.length) % activeData.length;
-            updateStudyCard();
-        }
-
-        function selectCardDirectly(idx) {
-            currentStudyIndex = idx;
-            updateStudyCard();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
+        function toggleCard() { document.getElementById('flashcard').classList.toggle('card-flipped'); isCardFlipped = !isCardFlipped; }
+        function nextCard() { currentStudyIndex = (currentStudyIndex + 1) % activeData.length; updateStudyCard(); }
+        function prevCard() { currentStudyIndex = (currentStudyIndex - 1 + activeData.length) % activeData.length; updateStudyCard(); }
         function renderOverviewGrid() {
-            const grid = document.getElementById('overview-grid');
-            grid.innerHTML = '';
-            
-            if (activeData.length === 0) {
 
-                grid.innerHTML = '<p class="col-span-full text-center text-sm text-slate-400 py-4">Geen gegevens beschikbaar.</p>';
-                return;
-            }
-
+            const grid = document.getElementById('overview-grid'); grid.innerHTML = '';
             activeData.forEach((item, index) => {
                 const btn = document.createElement('div');
-                btn.className = "p-3 bg-white border border-slate-200 rounded-xl flex flex-col justify-between items-center transition-all duration-150 shadow-sm relative group hover:border-blue-300 cursor-pointer";
-                btn.onclick = () => selectCardDirectly(index);
-                
-                const contentDiv = document.createElement('div');
-                contentDiv.className = "text-center w-full";
-                contentDiv.innerHTML = `
-                    <div class="text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate px-1">${item.num}</div>
-                    <div class="text-xs font-medium text-slate-400 capitalize truncate px-1">${item.french}</div>
-                `;
-                
-                btn.appendChild(contentDiv);
+                btn.className = "p-3 bg-white border border-slate-200 rounded-xl text-center shadow-sm hover:border-blue-300 cursor-pointer";
+                btn.onclick = () => { currentStudyIndex = index; updateStudyCard(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+                btn.innerHTML = `<div class="text-sm font-bold text-slate-900">${item.num}</div><div class="text-xs font-medium text-slate-400 truncate">${item.french}</div>`;
                 grid.appendChild(btn);
             });
-
         }
 
-        // ================= QUIZ LOGIC =================
+        // ================= QUIZ & WRITE LOGIC =================
         function initQuiz() {
-            quizRound = 1;
-            quizScore = 0;
-            totalQuizRounds = Math.min(10, activeData.length);
-            document.getElementById('quiz-score').innerText = quizScore;
-            document.getElementById('quiz-progress-total').innerText = totalQuizRounds;
-            
-            if (activeData.length === 0) {
-                const container = document.getElementById('quiz-options-container');
-                document.getElementById('quiz-question-title').innerText = "Geen woorden";
-                container.innerHTML = `<p class="col-span-2 text-center text-slate-400 py-4">Voeg eerst woorden toe in de Set Maker tab!</p>`;
-                document.getElementById('btn-quiz-next').classList.add('hidden');
-                return;
-            }
+            quizRound = 1; quizScore = 0; totalQuizRounds = Math.min(10, activeData.length);
+            document.getElementById('quiz-score').innerText = quizScore; document.getElementById('quiz-progress-total').innerText = totalQuizRounds;
             setupQuizQuestion();
         }
-
-
         function setupQuizQuestion() {
-            quizAnswered = false;
+            quizAnswered = false; document.getElementById('btn-quiz-next').classList.add('hidden');
             document.getElementById('quiz-progress-current').innerText = quizRound;
+
             document.getElementById('quiz-progress-bar').style.width = `${(quizRound / totalQuizRounds) * 100}%`;
-            document.getElementById('btn-quiz-next').classList.add('hidden');
-
-            const randomIndex = Math.floor(Math.random() * activeData.length);
-            currentQuizItem = activeData[randomIndex];
+            currentQuizItem = activeData[Math.floor(Math.random() * activeData.length)];
             document.getElementById('quiz-question-title').innerText = currentQuizItem.num;
-
-            let optionsPool = [...new Set([...activeData.map(i => i.french), ...numbersData.map(i => i.french)])];
-            optionsPool = optionsPool.filter(item => item !== currentQuizItem.french);
-            
+            let pool = [...new Set([...activeData.map(i => i.french), ...numbersData.map(i => i.french)])].filter(x => x !== currentQuizItem.french);
             let options = [currentQuizItem.french];
-            const targetOptionsCount = Math.min(4, optionsPool.length + 1);
-            while (options.length < targetOptionsCount) {
-                const optIdx = Math.floor(Math.random() * optionsPool.length);
-                const optWord = optionsPool[optIdx];
-                if (!options.includes(optWord)) {
-
-                    options.push(optWord);
-                    optionsPool.splice(optIdx, 1);
-                }
+            while (options.length < Math.min(4, pool.length + 1)) {
+                let opt = pool[Math.floor(Math.random() * pool.length)];
+                if (!options.includes(opt)) options.push(opt);
             }
-
             options.sort(() => Math.random() - 0.5);
-
-            const container = document.getElementById('quiz-options-container');
-            container.innerHTML = '';
-            options.forEach(option => {
+            const container = document.getElementById('quiz-options-container'); container.innerHTML = '';
+            options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left p-4 border-2 border-slate-200 hover:border-slate-300 rounded-xl font-semibold transition-all duration-150 hover:bg-slate-50 focus:outline-none active:scale-[0.99] break-words";
-                btn.innerText = option;
-                btn.onclick = () => selectQuizOption(btn, option);
+                btn.className = "w-full text-left p-4 border-2 border-slate-200 rounded-xl font-semibold hover:bg-slate-50 transition-colors";
+                btn.innerText = opt; btn.onclick = () => {
+                    if (quizAnswered) return; quizAnswered = true;
+                    if (opt === currentQuizItem.french) { btn.className = "w-full text-left p-4 border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl font-semibold"; quizScore++; document.getElementById('quiz-score').innerText = quizScore; }
+                    else { btn.className = "w-full text-left p-4 border-2 border-rose-500 bg-rose-50 text-rose-700 rounded-xl font-semibold"; }
+                    document.getElementById('btn-quiz-next').classList.remove('hidden');
+
+                };
                 container.appendChild(btn);
             });
         }
+        function nextQuizQuestion() { if (quizRound < totalQuizRounds) { quizRound++; setupQuizQuestion(); } else { switchTab('study'); showToast(`Quiz klaar! Score: ${quizScore}/${totalQuizRounds}`, "success"); } }
 
-        function selectQuizOption(button, chosenValue) {
-
-            if (quizAnswered) return;
-            quizAnswered = true;
-
-            const container = document.getElementById('quiz-options-container');
-            const buttons = container.getElementsByTagName('button');
-
-            if (chosenValue === currentQuizItem.french) {
-                button.className = "w-full text-left p-4 border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl font-semibold focus:outline-none break-words";
-                quizScore++;
-                document.getElementById('quiz-score').innerText = quizScore;
-                showToast("Goed gedaan!", "success");
-            } else {
-                button.className = "w-full text-left p-4 border-2 border-rose-500 bg-rose-50 text-rose-700 rounded-xl font-semibold focus:outline-none break-words";
-                showToast(`Helaas! Juiste antwoord: ${currentQuizItem.french}`, "error");
-                
-                for (let btn of buttons) {
-                    if (btn.innerText === currentQuizItem.french) {
-                        btn.className = "w-full text-left p-4 border-2 border-emerald-500 bg-emerald-50 text-emerald-700 rounded-xl font-semibold focus:outline-none break-words";
-                    }
-
-                }
-            }
-
-            for (let btn of buttons) {
-                btn.removeAttribute('onclick');
-                if (btn !== button && btn.innerText !== currentQuizItem.french) {
-                    btn.className = "w-full text-left p-4 border-2 border-slate-100 text-slate-400 rounded-xl font-semibold focus:outline-none opacity-50 break-words";
-                }
-            }
-
-            document.getElementById('btn-quiz-next').classList.remove('hidden');
-        }
-
-        function nextQuizQuestion() {
-            if (quizRound < totalQuizRounds) {
-                quizRound++;
-                setupQuizQuestion();
-            } else {
-                const container = document.getElementById('quiz-options-container');
-
-                container.innerHTML = `
-                    <div class="col-span-2 text-center py-6 space-y-4">
-                        <div class="text-4xl">🎉</div>
-                        <h4 class="text-xl font-bold">Quiz Afgerond!</h4>
-                        <p class="text-slate-500">Je eindscore is <span class="font-bold text-slate-800">${quizScore} van de ${totalQuizRounds}</span> goed.</p>
-                        <button onclick="initQuiz()" class="mt-4 px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-sm text-sm">
-                            Opnieuw Spelen
-                        </button>
-                    </div>
-                `;
-                document.getElementById('btn-quiz-next').classList.add('hidden');
-            }
-        }
-
-        // ================= WRITE LOGIC =================
         function initWrite() {
-            writeRound = 1;
-            writeScore = 0;
-            totalWriteRounds = Math.min(10, activeData.length);
-
-            document.getElementById('write-score').innerText = writeScore;
-            document.getElementById('write-progress-total').innerText = totalWriteRounds;
-            
-            const input = document.getElementById('write-input');
-            input.classList.remove('hidden');
-
-            if (activeData.length === 0) {
-                document.getElementById('write-question-title').innerText = "Geen woorden";
-                input.classList.add('hidden');
-                document.getElementById('btn-write-check').classList.add('hidden');
-                return;
-            }
+            writeRound = 1; writeScore = 0; totalWriteRounds = Math.min(10, activeData.length);
+            document.getElementById('write-score').innerText = writeScore; document.getElementById('write-progress-total').innerText = totalWriteRounds;
             setupWriteQuestion();
         }
-
         function setupWriteQuestion() {
-            writeAnswered = false;
-            document.getElementById('write-progress-current').innerText = writeRound;
-            
-
-            const input = document.getElementById('write-input');
-            input.value = '';
-            input.disabled = false;
-            input.className = "w-full px-4 py-3.5 border-2 border-slate-200 rounded-xl focus:border-indigo-500 focus:outline-none text-center font-semibold text-lg transition-colors";
-            
-            const feedback = document.getElementById('write-feedback');
-            feedback.classList.add('hidden');
-            feedback.className = "hidden p-4 rounded-xl text-sm font-medium text-center transition-all duration-200";
-
-            document.getElementById('btn-write-check').classList.remove('hidden');
-            document.getElementById('btn-write-next').classList.add('hidden');
-
-            const randomIndex = Math.floor(Math.random() * activeData.length);
-            currentWriteItem = activeData[randomIndex];
+            writeAnswered = false; document.getElementById('btn-write-next').classList.add('hidden'); document.getElementById('btn-write-check').classList.remove('hidden');
+            const input = document.getElementById('write-input'); input.value = ''; input.disabled = false;
+            document.getElementById('write-feedback').classList.add('hidden');
+            currentWriteItem = activeData[Math.floor(Math.random() * activeData.length)];
             document.getElementById('write-question-title').innerText = currentWriteItem.num;
-            
-            setTimeout(() => input.focus(), 100);
+        }
+        function checkWriteAnswer() {
+
+            const input = document.getElementById('write-input'); const ans = input.value.trim().toLowerCase();
+            const correct = currentWriteItem.french.toLowerCase(); const fb = document.getElementById('write-feedback');
+            if(!ans) return; writeAnswered = true; input.disabled = true; fb.classList.remove('hidden');
+            document.getElementById('btn-write-check').classList.add('hidden'); document.getElementById('btn-write-next').classList.remove('hidden');
+            if(ans === correct) { writeScore++; document.getElementById('write-score').innerText = writeScore; fb.innerText = "✓ Juist!"; fb.className = "p-3 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-center"; }
+            else { fb.innerHTML = `✕ Fout, het juiste antwoord is: <span class="font-bold">${currentWriteItem.french}</span>`; fb.className = "p-3 rounded-xl bg-rose-50 text-rose-700 font-bold text-center"; }
+        }
+        function handleWriteKey(e) { if(e.key === 'Enter') { if(!writeAnswered) checkWriteAnswer(); else nextWriteQuestion(); } }
+        function nextWriteQuestion() { if(writeRound < totalWriteRounds) { writeRound++; setupWriteQuestion(); } else { switchTab('study'); showToast(`Schrijven voltooid! Score: ${writeScore}/${totalWriteRounds}`, "success"); } }
+
+        // ================= REAL INTERACTIVE ARCADE GAMES ENGINE =================
+        function launchRealGame(type) {
+            if(activeData.length === 0) { showToast("Voeg eerst woorden toe om te kunnen spelen!", "error"); return; }
+            currentGameType = type;
+            isGameRunning = false;
+
+            document.getElementById('arcade-dashboard').classList.add('hidden');
+            document.getElementById('arcade-arena').classList.remove('hidden');
+            document.getElementById('td-shop-sidebar').classList.add('hidden');
+
+            document.getElementById('td-upgrade-panel').classList.add('hidden');
+
+            if(type === 'td') {
+                document.getElementById('td-shop-sidebar').classList.remove('hidden');
+                document.getElementById('arcade-game-title').innerText = "Tower Defense Pro";
+                
+                if(!tdState.initialized) {
+                    gameCurrentLevel = 1;
+                    mainGameScore = 0;
+                    resetFullTdData();
+                }
+                
+                document.getElementById('arcade-game-level').innerText = gameCurrentLevel;
+                document.getElementById('arcade-game-score').innerText = mainGameScore;
+                configureControlsPad('td');
+                triggerOverlayScreen(true, `Wave ${gameCurrentLevel} Starten`, "Sleep torens uit het linkerpaneel naar de map. Klik op een geplaatste toren om hem te upgraden!", "Start Wave");
+            } else {
+                gameCurrentLevel = 1;
+                mainGameScore = 0;
+
+                document.getElementById('arcade-game-level').innerText = gameCurrentLevel;
+                document.getElementById('arcade-game-score').innerText = mainGameScore;
+                configureControlsPad(type);
+                triggerOverlayScreen(true, "Start Spel", `Welkom bij ${type.toUpperCase()}! Los de opgaven tussendoor op.`);
+            }
+        }
+
+        function stopAllGames() {
+            isGameRunning = false;
+            if(gameAnimationId) { cancelAnimationFrame(gameAnimationId); gameAnimationId = null; }
+            document.getElementById('arcade-question-overlay').classList.add('hidden');
+            document.getElementById('game-overlay-screen').classList.add('hidden');
+        }
+
+        function exitArcadeArena() {
+            stopAllGames();
+            document.getElementById('arcade-arena').classList.add('hidden');
+            document.getElementById('arcade-dashboard').classList.remove('hidden');
         }
 
 
-        function checkWriteAnswer() {
-            if (writeAnswered) return;
+        function configureControlsPad(type) {
+            const dpad = document.getElementById('dpad-container');
+            const hint = document.getElementById('control-hint-text');
+            dpad.classList.add('hidden');
             
-            const input = document.getElementById('write-input');
-            const userAnswer = input.value.trim().toLowerCase();
-            const correctAnswer = currentWriteItem.french.toLowerCase();
-            const feedback = document.getElementById('write-feedback');
+            if(type === 'snake') {
+                hint.innerText = "Gebruik WASD / Pijltjestoetsen of de D-Pad knoppen.";
+                dpad.classList.remove('hidden');
+                document.getElementById('action-center-btn').innerText = "🐍";
+            } else if(type === 'platformer') {
+                hint.innerText = "Links/Rechts om te lopen, OMHOOG of Spatiebalk om te springen.";
+                dpad.classList.remove('hidden');
+                document.getElementById('action-center-btn').innerText = "🚀";
+            } else if(type === 'td') {
+                hint.innerText = "Sleep torens vanuit de shop links naar het speelveld. Klik op een geplaatste toren voor upgrades.";
+            }
+        }
 
-            if (!userAnswer) {
-                showToast("Typ eerst een antwoord in!", "info");
+        function triggerOverlayScreen(show, title, desc, btnText = "Start") {
+
+            const overlay = document.getElementById('game-overlay-screen');
+            if(!show) { overlay.classList.add('hidden'); return; }
+            document.getElementById('overlay-screen-title').innerText = title;
+            document.getElementById('overlay-screen-desc').innerText = desc;
+            const btn = document.getElementById('overlay-screen-btn');
+            btn.innerText = btnText;
+            btn.onclick = () => {
+                overlay.classList.add('hidden');
+                startActualLevelLoop();
+            };
+            overlay.classList.remove('hidden');
+        }
+
+        function promptLevelQuestion(onSuccessCallback) {
+            isGameRunning = false;
+            const target = activeData[Math.floor(Math.random() * activeData.length)];
+            document.getElementById('arcade-question-text').innerText = target.num;
+
+            let pool = [...new Set([...activeData.map(i => i.french), ...numbersData.map(i => i.french)])].filter(x => x !== target.french);
+
+            let choices = [target.french];
+            while(choices.length < Math.min(4, pool.length + 1)) {
+                let opt = pool[Math.floor(Math.random() * pool.length)];
+                if(!choices.includes(opt)) choices.push(opt);
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            const container = document.getElementById('arcade-question-choices');
+            container.innerHTML = '';
+            choices.forEach(ch => {
+                const btn = document.createElement('button');
+                btn.className = "p-3.5 bg-slate-800 hover:bg-blue-600 border border-slate-700 rounded-xl text-white font-bold text-sm transition-all text-center transform active:scale-95";
+                btn.innerText = ch;
+                btn.onclick = () => {
+                    document.getElementById('arcade-question-overlay').classList.add('hidden');
+                    if(ch === target.french) {
+                        showToast("Correct! Poort Ontgrendeld! +100 Bonspunten", "success");
+                        mainGameScore += 100;
+                        document.getElementById('arcade-game-score').innerText = mainGameScore;
+
+                        onSuccessCallback();
+                    } else {
+                        showToast(`Helaas, onjuist! Het was: ${target.french}. Bereid je voor op de herkansing.`, "error");
+                        if(currentGameType === 'td') {
+                            isGameRunning = true;
+                            launchRealGame('td');
+                        } else {
+                            launchRealGame(currentGameType);
+                        }
+                    }
+                };
+                container.appendChild(btn);
+            });
+            document.getElementById('arcade-question-overlay').classList.remove('hidden');
+        }
+
+        function startActualLevelLoop() {
+            isGameRunning = true;
+            if(currentGameType === 'snake') initSnakeGame();
+
+            else if(currentGameType === 'platformer') initPlatformerGame();
+            else if(currentGameType === 'td') prepareNextTdWave();
+            
+            runGlobalAnimationFrame();
+        }
+
+        function runGlobalAnimationFrame() {
+            if(!isGameRunning) return;
+            ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+            
+            if(currentGameType === 'snake') updateAndDrawSnake();
+            else if(currentGameType === 'platformer') updateAndDrawPlatformer();
+            else if(currentGameType === 'td') updateAndDrawTd();
+
+            gameAnimationId = requestAnimationFrame(runGlobalAnimationFrame);
+        }
+
+        // ================= DRAG AND DROP JAVASCRIPT SHOP ROUTINES =================
+        function handleDragStart(e, towerType) {
+
+            tdState.draggedType = towerType;
+            e.dataTransfer.setData("text/plain", towerType);
+        }
+
+        function allowDrop(e) {
+            if(currentGameType === 'td') { e.preventDefault(); }
+        }
+
+        function handleCanvasDrop(e) {
+            if(currentGameType !== 'td') return;
+            e.preventDefault();
+            
+            const rect = gameCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const type = tdState.draggedType;
+            let cost = 50;
+            let baseRange = 75;
+
+            let baseCooldown = 30;
+            let baseDmg = 10;
+            let color = '#fbbf24';
+
+            if(type === 'cannon') { cost = 90; baseRange = 65; baseCooldown = 55; baseDmg = 30; color = '#ef4444'; }
+            if(type === 'ice') { cost = 120; baseRange = 85; baseCooldown = 25; baseDmg = 5; color = '#38bdf8'; }
+
+            if(tdState.gold >= cost) {
+                tdState.towers.push({
+                    type: type,
+                    x: x, y: y,
+                    range: baseRange,
+                    maxCooldown: baseCooldown,
+                    cooldown: 0,
+                    damage: baseDmg,
+                    color: color,
+                    level: 1,
+                    upgradeCost: Math.round(cost * 0.8)
+                });
+
+                tdState.gold -= cost;
+                mainGameScore += 30;
+                document.getElementById('arcade-game-score').innerText = mainGameScore;
+                showToast(`${type.toUpperCase()} toren succesvol geplaatst!`, "success");
+            } else {
+                showToast(`Onvoldoende goud! Je hebt €${cost} nodig voor deze toren.`, "error");
+            }
+            tdState.draggedType = null;
+        }
+
+        function setupCanvasClickForTowerSelect() {
+            document.getElementById('gameCanvas').addEventListener('click', (e) => {
+                if(currentGameType !== 'td') return;
+                const rect = gameCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                let foundIndex = null;
+                for(let i=0; i<tdState.towers.length; i++) {
+
+                    let t = tdState.towers[i];
+                    let dist = Math.sqrt((x - t.x)**2 + (y - t.y)**2);
+                    if(dist <= 15) { foundIndex = i; break; }
+                }
+
+                if(foundIndex !== null) {
+                    tdState.selectedTowerIndex = foundIndex;
+                    let t = tdState.towers[foundIndex];
+                    document.getElementById('td-upgrade-panel').classList.remove('hidden');
+                    document.getElementById('td-selected-tower-name').innerText = t.type.toUpperCase() + " Toren";
+                    document.getElementById('td-selected-tower-lvl').innerText = t.level;
+                    document.getElementById('td-selected-tower-range').innerText = Math.round(t.range);
+                    document.getElementById('td-selected-tower-dmg').innerText = t.damage;
+                    document.getElementById('td-upgrade-cost').innerText = `€${t.upgradeCost}`;
+                } else {
+                    deselectTower();
+                }
+            });
+        }
+
+
+        function upgradeSelectedTower() {
+            if(tdState.selectedTowerIndex === null) return;
+            let t = tdState.towers[tdState.selectedTowerIndex];
+            if(tdState.gold >= t.upgradeCost) {
+                tdState.gold -= t.upgradeCost;
+                t.level += 1;
+                t.range *= 1.25; 
+                t.damage = Math.round(t.damage * 1.25); 
+                t.maxCooldown = Math.max(10, Math.round(t.maxCooldown * 0.9)); 
+                t.upgradeCost = Math.round(t.upgradeCost * 1.5);
+                
+                mainGameScore += 50;
+                document.getElementById('arcade-game-score').innerText = mainGameScore;
+                showToast("Toren permanent geüpgraded naar Level " + t.level + "!", "success");
+                
+                document.getElementById('td-selected-tower-lvl').innerText = t.level;
+                document.getElementById('td-selected-tower-range').innerText = Math.round(t.range);
+                document.getElementById('td-selected-tower-dmg').innerText = t.damage;
+                document.getElementById('td-upgrade-cost').innerText = `€${t.upgradeCost}`;
+
+            } else {
+                showToast(`Niet genoeg goud! Je hebt €${t.upgradeCost} nodig.`, "error");
+            }
+        }
+
+        function deselectTower() {
+            tdState.selectedTowerIndex = null;
+            document.getElementById('td-upgrade-panel').classList.add('hidden');
+        }
+
+        // ================= TOWER DEFENSE PRO GAME MECHANICS =================
+        function resetFullTdData() {
+            tdState.initialized = true;
+            tdState.towers = [];
+            tdState.enemies = [];
+            tdState.gold = 150;
+            tdState.baseHp = 10;
+            deselectTower();
+        }
+
+
+        function prepareNextTdWave() {
+            tdState.enemies = [];
+            tdState.waveEnemiesLeft = 4 + (gameCurrentLevel * 2);
+            tdState.enemiesSpawned = 0;
+            tdState.spawnCooldown = 0;
+            deselectTower();
+        }
+
+        function updateAndDrawTd() {
+            if(tdState.enemiesSpawned < tdState.waveEnemiesLeft) {
+                tdState.spawnCooldown++;
+                if(tdState.spawnCooldown % Math.max(25, 60 - gameCurrentLevel * 3) === 0) {
+                    tdState.enemies.push({
+                        pathIndex: 0,
+                        x: tdState.path[0].x,
+                        y: tdState.path[0].y,
+                        speed: 1.1 + (gameCurrentLevel * 0.12),
+                        slowFactor: 1.0,
+                        slowTimer: 0,
+
+                        hp: 15 + (gameCurrentLevel * 8),
+                        maxHp: 15 + (gameCurrentLevel * 8)
+                    });
+                    tdState.enemiesSpawned++;
+                }
+            }
+
+            for(let i = tdState.enemies.length - 1; i >= 0; i--) {
+                let e = tdState.enemies[i];
+                
+                if(e.slowTimer > 0) {
+                    e.slowTimer--;
+                    if(e.slowTimer <= 0) e.slowFactor = 1.0;
+                }
+
+                let target = tdState.path[e.pathIndex + 1];
+                let dx = target.x - e.x;
+                let dy = target.y - e.y;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+
+
+                if(dist < 5) {
+                    e.pathIndex++;
+                    if(e.pathIndex >= tdState.path.length - 1) {
+                        tdState.baseHp--;
+                        tdState.enemies.splice(i, 1);
+                        if(tdState.baseHp <= 0) {
+                            showToast("Je kasteel is overmeesterd! Game Over.", "error");
+                            tdState.initialized = false;
+                            launchRealGame('td');
+                        }
+                        continue;
+                    }
+                } else {
+                    let actualSpeed = e.speed * e.slowFactor;
+                    e.x += (dx / dist) * actualSpeed;
+                    e.y += (dy / dist) * actualSpeed;
+                }
+            }
+
+
+            tdState.towers.forEach(t => {
+                if(t.cooldown > 0) t.cooldown--;
+                if(t.cooldown === 0 && tdState.enemies.length > 0) {
+                    for(let i=0; i<tdState.enemies.length; i++) {
+                        let ene = tdState.enemies[i];
+                        let dist = Math.sqrt((ene.x - t.x)**2 + (ene.y - t.y)**2);
+                        if(dist <= t.range) {
+                            ene.hp -= t.damage;
+                            t.cooldown = t.maxCooldown;
+                            
+                            if(t.type === 'ice') {
+                                ene.slowFactor = 0.5; 
+                                ene.slowTimer = 45;   
+                                ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3;
+                            } else if(t.type === 'cannon') {
+                                ctx.strokeStyle = '#f43f5e'; ctx.lineWidth = 4;
+                            } else {
+                                ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.5;
+                            }
+
+                            
+                            ctx.beginPath(); ctx.moveTo(t.x, t.y); ctx.lineTo(ene.x, ene.y); ctx.stroke();
+
+                            if(ene.hp <= 0) {
+                                tdState.enemies.splice(i, 1);
+                                tdState.gold += 20; 
+                                mainGameScore += 20;
+                                document.getElementById('arcade-game-score').innerText = mainGameScore;
+                            }
+                            break;
+                        }
+                    }
+                }
+            });
+
+            if(tdState.enemiesSpawned >= tdState.waveEnemiesLeft && tdState.enemies.length === 0) {
+                isGameRunning = false;
+                promptLevelQuestion(() => {
+                    gameCurrentLevel++;
+
+                    tdState.gold += 50; 
+                    document.getElementById('arcade-game-level').innerText = gameCurrentLevel;
+                    triggerOverlayScreen(true, `Wave ${gameCurrentLevel} Bereikt`, "Goed gedaan! Je verdedigingswerken en goud blijven intact voor de volgende wave.", "Start Volgende Wave");
+                });
                 return;
             }
 
-            writeAnswered = true;
-            input.disabled = true;
-            feedback.classList.remove('hidden');
-            document.getElementById('btn-write-check').classList.add('hidden');
-            document.getElementById('btn-write-next').classList.remove('hidden');
+            ctx.fillStyle = '#1e1b4b'; ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+            ctx.strokeStyle = '#312e81'; ctx.lineWidth = 32; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(tdState.path[0].x, tdState.path[0].y);
+            for(let k=1; k<tdState.path.length; k++) { ctx.lineTo(tdState.path[k].x, tdState.path[k].y); }
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff'; ctx.font = 'bold 11px Inter';
+            ctx.fillText(`🏰 Kasteel HP: ${tdState.baseHp}/10`, 15, 20);
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillText(`🪙 Goud: €${tdState.gold}`, 160, 20);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(`👾 Inkomend: ${tdState.waveEnemiesLeft - tdState.enemiesSpawned} over`, 280, 20);
+
+            tdState.towers.forEach((t, index) => {
+                ctx.fillStyle = t.color;
+                ctx.beginPath(); ctx.arc(t.x, t.y, 11, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(t.x, t.y, 4, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#cbd5e1'; ctx.font = '9px monospace';
+                ctx.fillText(`Lvl${t.level}`, t.x - 11, t.y - 14);
+
+                if(index === tdState.selectedTowerIndex) {
+                    ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1;
+                    ctx.beginPath(); ctx.arc(t.x, t.y, t.range, 0, Math.PI*2); ctx.stroke();
+                }
+            });
+
+            tdState.enemies.forEach(e => {
+                ctx.fillStyle = e.slowFactor < 1.0 ? '#38bdf8' : '#ef4444';
+                ctx.beginPath(); ctx.arc(e.x, e.y, 7, 0, Math.PI*2); ctx.fill();
+
+                ctx.fillStyle = '#475569'; ctx.fillRect(e.x - 10, e.y - 13, 20, 3);
+                let hpPercent = e.hp / e.maxHp;
+                ctx.fillStyle = '#22c55e'; ctx.fillRect(e.x - 10, e.y - 13, 20 * hpPercent, 3);
+            });
+        }
+
+        // ================= GAME MODULE 2: GEBORGDE PLATFORMER (VERBETERD & ALTIJD SPEELBAAR) =================
+        function initPlatformerGame() {
+            // Gebruik een deterministisch-willekeurige zaad-waarde gekoppeld aan het level om herhaling te voorkomen
+            let seed = Math.sin(gameCurrentLevel) * 10000;
+            let pseudoRandom = () => {
+                let x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            };
+
+            // Startplatform is altijd stabiel
+            let list = [{ x: 0, y: 310, w: 85, h: 40 }];
+            let lastX = 85;
+            let lastY = 310;
 
 
-            if (userAnswer === correctAnswer) {
-                writeScore++;
-                document.getElementById('write-score').innerText = writeScore;
-                input.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
-                feedback.classList.add('bg-emerald-50', 'text-emerald-700');
-                feedback.innerText = "✓ Uitstekend! Helemaal juist.";
-            } else {
-                input.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-700');
-                feedback.classList.add('bg-rose-50', 'text-rose-700');
-                feedback.innerHTML = `✕ Foutje. Het juiste antwoord is <span class="font-bold underline">${currentWriteItem.french}</span>.`;
+            // Genereer de 2 tussenliggende platformen via strikte natuurkundige grenzen
+            // Maximale horizontale sprongafstand met springsnelheid 8.5 is ca 130px, maximale klimhoogte ca 50px
+            for (let i = 0; i < 2; i++) {
+                let pWidth = 60 + Math.floor(pseudoRandom() * 30); // Breedte tussen 60px en 90px
+                let minGap = 55;
+                let maxGap = 105; // Altijd ruim onder de theoretische limiet van 130px
+                let gap = minGap + Math.floor(pseudoRandom() * (maxGap - minGap));
+                
+                let nextX = lastX + gap;
+                
+                // Bepaal hoogte: mag stijgen of dalen, maar nooit onbereikbaar hoog worden (-45px tot +35px)
+                let heightDiff = -45 + Math.floor(pseudoRandom() * 80);
+                let nextY = lastY + heightDiff;
+                
+                // Veiligheidsgrenzen voor canvas hoogtebewaking
+                if (nextY < 130) nextY = 130;
+                if (nextY > 310) nextY = 310;
+
+                list.push({ x: nextX, y: nextY, w: pWidth, h: 20 });
+
+                lastX = nextX + pWidth;
+                lastY = nextY;
+            }
+
+            // Eindplatform gegarandeerd bereikbaar maken vanaf het laatste tussenplatform
+            let finalGap = 60 + Math.floor(pseudoRandom() * 40);
+            let finalX = lastX + finalGap;
+            let finalY = lastY - 25;
+            if (finalY < 120) finalY = 120;
+            
+            // Zorg dat het eindplatform binnen het canvas blijft passen (max 500px breed)
+            if (finalX > 420) {
+                let shift = finalX - 420;
+                // Schuif de hele keten iets terug naar links om het passend te maken
+                list.forEach(p => p.x -= shift);
+                finalX = 420;
+            }
+
+            list.push({ x: finalX, y: finalY, w: 75, h: 40 });
+
+
+            platformerState = {
+                player: { x: 20, y: 240, vx: 0, vy: 0, size: 20, jumping: true },
+                keys: { left: false, right: false },
+                gravity: 0.44, // Perfect afgestemde zwaartekracht voor soepele gameplay
+                platforms: list,
+                flag: { x: finalX + 25, y: finalY - 40, reached: false }
+            };
+        }
+
+        function updateAndDrawPlatformer() {
+            let p = platformerState.player;
+            if(platformerState.keys.left) p.vx = -3.5;
+            else if(platformerState.keys.right) p.vx = 3.5;
+            else p.vx = 0;
+
+            p.vy += platformerState.gravity;
+            p.x += p.vx;
+            p.y += p.vy;
+
+
+            if(p.x < 0) p.x = 0;
+            if(p.x > gameCanvas.width - p.size) p.x = gameCanvas.width - p.size;
+
+            // Zachte respawn zonder scoreverlies bij vallen
+            if(p.y > gameCanvas.height) {
+                showToast("Val! Je start veilig opnieuw aan het begin.", "info");
+                p.x = 20; p.y = 200; p.vx = 0; p.vy = 0; p.jumping = true;
+                return;
+            }
+
+            p.jumping = true;
+            platformerState.platforms.forEach(plat => {
+                if (p.x + p.size > plat.x && p.x < plat.x + plat.w &&
+                    p.y + p.size > plat.y && p.y + p.size - p.vy <= plat.y + 12) {
+                    p.jumping = false;
+                    p.vy = 0;
+                    p.y = plat.y - p.size;
+                }
+            });
+
+
+            // Check of vlag is bereikt
+            if(p.x + p.size > platformerState.flag.x - 10 && p.x < platformerState.flag.x + 30 &&
+               p.y + p.size > platformerState.flag.y && p.y < platformerState.flag.y + 45) {
+                isGameRunning = false;
+                promptLevelQuestion(() => {
+                    gameCurrentLevel++;
+                    document.getElementById('arcade-game-level').innerText = gameCurrentLevel;
+                    triggerOverlayScreen(true, `Jumper Level ${gameCurrentLevel}`, `Franse poort geopend! Welkom in het unieke, op maat gemaakte level ${gameCurrentLevel}.`, "Start Volgende Level");
+                });
+                return;
+            }
+
+            // RENDERING
+            ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+            // Teken platforms
+            platformerState.platforms.forEach((plat, i) => {
+                ctx.fillStyle = i === 0 ? '#475569' : (i === platformerState.platforms.length - 1 ? '#10b981' : '#6366f1');
+                ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.fillRect(plat.x, plat.y, plat.w, 4);
+            });
+
+            // Teken vlag en speler emoji
+            ctx.font = '24px serif';
+            ctx.fillText('🚩', platformerState.flag.x, platformerState.flag.y + 26);
+
+            ctx.font = '18px serif';
+            ctx.fillText('🏃', p.x, p.y + 18);
+        }
+
+        // ================= INTERACTIEVE CONTROLS DPAD & KEYBOARD SYNC =================
+        function triggerDpad(dir) {
+            if(!isGameRunning) return;
+            if(currentGameType === 'snake') {
+                if(dir === 'up' && snakeState.dy === 0) { snakeState.nextDx = 0; snakeState.nextDy = -20; }
+                if(dir === 'down' && snakeState.dy === 0) { snakeState.nextDx = 0; snakeState.nextDy = 20; }
+                if(dir === 'left' && snakeState.dx === 0) { snakeState.nextDx = -20; snakeState.nextDy = 0; }
+
+                if(dir === 'right' && snakeState.dx === 0) { snakeState.nextDx = 20; snakeState.nextDy = 0; }
+            }
+            if(currentGameType === 'platformer') {
+                if(dir === 'left') platformerState.player.vx = -4;
+                if(dir === 'right') platformerState.player.vx = 4;
+                if(dir === 'up' && !platformerState.player.jumping) { platformerState.player.vy = -8.5; platformerState.player.jumping = true; }
             }
         }
 
-        function handleWriteKey(event) {
-            if (event.key === 'Enter') {
-                if (!writeAnswered) {
-                    checkWriteAnswer();
-                } else {
-                    nextWriteQuestion();
+        function setupKeyboardListeners() {
+            window.addEventListener('keydown', (e) => {
+                if(!isGameRunning) return;
+                if(currentGameType === 'snake') {
+                    if((e.key === 'w' || e.key === 'ArrowUp') && snakeState.dy === 0) { snakeState.nextDx = 0; snakeState.nextDy = -20; }
+                    if((e.key === 's' || e.key === 'ArrowDown') && snakeState.dy === 0) { snakeState.nextDx = 0; snakeState.nextDy = 20; }
+                    if((e.key === 'a' || e.key === 'ArrowLeft') && snakeState.dx === 0) { snakeState.nextDx = -20; snakeState.nextDy = 0; }
+                    if((e.key === 'd' || e.key === 'ArrowRight') && snakeState.dx === 0) { snakeState.nextDx = 20; snakeState.nextDy = 0; }
+                }
+                if(currentGameType === 'platformer') {
 
+                    if(e.key === 'a' || e.key === 'ArrowLeft') platformerState.keys.left = true;
+                    if(e.key === 'd' || e.key === 'ArrowRight') platformerState.keys.right = true;
+                    if((e.key === 'w' || e.key === 'ArrowUp' || e.key === ' ') && !platformerState.player.jumping) {
+                        platformerState.player.vy = -8.5; platformerState.player.jumping = true;
+                    }
+                }
+            });
+
+            window.addEventListener('keyup', (e) => {
+                if(currentGameType === 'platformer') {
+                    if(e.key === 'a' || e.key === 'ArrowLeft') platformerState.keys.left = false;
+                    if(e.key === 'd' || e.key === 'ArrowRight') platformerState.keys.right = false;
+                }
+            });
+        }
+
+        function initSnakeGame() {
+            snakeState = { gridSize: 20, x: 100, y: 100, dx: 20, dy: 0, nextDx: 20, nextDy: 0, trail: [{x: 100, y: 100}, {x: 80, y: 100}], tailLength: 3, apple: {x: 240, y: 160}, targetApples: 2 + gameCurrentLevel, applesEaten: 0, frameCounter: 0, speedThrottle: Math.max(4, 10 - gameCurrentLevel) };
+        }
+
+
+        function updateAndDrawSnake() {
+            snakeState.frameCounter++;
+            if(snakeState.frameCounter % snakeState.speedThrottle === 0) {
+                snakeState.dx = snakeState.nextDx; snakeState.dy = snakeState.nextDy; snakeState.x += snakeState.dx; snakeState.y += snakeState.dy;
+                if(snakeState.x < 0 || snakeState.x >= gameCanvas.width || snakeState.y < 0 || snakeState.y >= gameCanvas.height) { showToast("Boem! Tegen de muur.", "error"); launchRealGame('snake'); return; }
+                for(let i=0; i<snakeState.trail.length; i++) { if(snakeState.trail[i].x === snakeState.x && snakeState.trail[i].y === snakeState.y) { showToast("Eigen staart geraakt!", "error"); launchRealGame('snake'); return; } }
+                snakeState.trail.unshift({x: snakeState.x, y: snakeState.y}); while(snakeState.trail.length > snakeState.tailLength) { snakeState.trail.pop(); }
+                if(snakeState.x === snakeState.apple.x && snakeState.y === snakeState.apple.y) {
+                    snakeState.tailLength++; snakeState.applesEaten++; mainGameScore += 25; document.getElementById('arcade-game-score').innerText = mainGameScore;
+                    snakeState.apple.x = Math.floor(Math.random() * (gameCanvas.width / 20)) * 20; snakeState.apple.y = Math.floor(Math.random() * (gameCanvas.height / 20)) * 20;
+                    if(snakeState.applesEaten >= snakeState.targetApples) {
+                        isGameRunning = false; promptLevelQuestion(() => { gameCurrentLevel++; document.getElementById('arcade-game-level').innerText = gameCurrentLevel; triggerOverlayScreen(true, `Level ${gameCurrentLevel} Gehaald!`, "Klaar voor de volgende ronde?", "Start Volgende Level"); });
+                    }
                 }
             }
-        }
+            ctx.fillStyle = '#1e293b'; ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+            ctx.fillStyle = '#ffffff'; ctx.font = '12px Inter'; ctx.fillText(`Appels te eten: ${snakeState.applesEaten} / ${snakeState.targetApples}`, 15, 25);
+            snakeState.trail.forEach((cell, idx) => { ctx.fillStyle = idx === 0 ? '#10b981' : '#34d399'; ctx.fillRect(cell.x, cell.y, 19, 19); });
+            let ax = snakeState.apple.x; let ay = snakeState.apple.y;
 
-        function nextWriteQuestion() {
-            if (writeRound < totalWriteRounds) {
-                writeRound++;
-                setupWriteQuestion();
-            } else {
-                const feedback = document.getElementById('write-feedback');
-                feedback.classList.remove('hidden');
-                feedback.className = "p-6 bg-slate-100 rounded-xl text-center space-y-4";
-                feedback.innerHTML = `
-                    <div class="text-3xl">🏆</div>
-                    <h4 class="text-lg font-bold">Schrijfoefening voltooid!</h4>
-                    <p class="text-slate-600">Je hebt <span class="font-bold text-slate-900">${writeScore} van de ${totalWriteRounds}</span> getallen/woorden foutloos geschreven.</p>
-                    <button onclick="initWrite()" class="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors shadow-sm text-sm">
-                        Nog een keer
-                    </button>
-
-                `;
-                document.getElementById('write-input').classList.add('hidden');
-                document.getElementById('btn-write-next').classList.add('hidden');
-                document.getElementById('btn-write-check').classList.add('hidden');
-            }
+            ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(ax + 10, ay + 11, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#22c55e'; ctx.beginPath(); ctx.ellipse(ax + 12, ay + 3, 4, 2, Math.PI / 4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ax + 10, ay + 4); ctx.lineTo(ax + 10, ay + 1); ctx.stroke();
         }
 
         // ================= SET MAKER LOGIC =================
         function addCustomWord() {
-            const dutchInput = document.getElementById('input-custom-dutch');
-            const frenchInput = document.getElementById('input-custom-french');
-            
-            const numValue = dutchInput.value.trim();
-            const frenchValue = frenchInput.value.trim();
-
-            if (!numValue || !frenchValue) {
-                showToast("Vul a.u.b. zowel de betekenis als de Franse vertaling in.", "error");
-                return;
-            }
-
-
-            customData.push({
-                num: numValue,
-                french: frenchValue
-            });
-
-            dutchInput.value = '';
-            frenchInput.value = '';
-            dutchInput.focus();
-
-            showToast(`"${frenchValue}" toegevoegd!`, "success");
-            renderCustomWordsList();
+            const dutchInput = document.getElementById('input-custom-dutch'); const frenchInput = document.getElementById('input-custom-french');
+            const numValue = dutchInput.value.trim(); const frenchValue = frenchInput.value.trim();
+            if (!numValue || !frenchValue) { showToast("Vul alle velden in.", "error"); return; }
+            customData.push({ num: numValue, french: frenchValue });
+            dutchInput.value = ''; frenchInput.value = ''; dutchInput.focus();
+            showToast(`"${frenchValue}" toegevoegd!`, "success"); renderCustomWordsList();
         }
-
-        function deleteCustomWord(index) {
-            customData.splice(index, 1);
-            showToast("Woord verwijderd uit je set.", "info");
-            renderCustomWordsList();
-            
-            if (customData.length === 0 && isCustomActive) {
-
-                resetToDefault();
-            }
-        }
-
+        function deleteCustomWord(index) { customData.splice(index, 1); showToast("Woord verwijderd.", "info"); renderCustomWordsList(); if (customData.length === 0 && isCustomActive) resetToDefault(); }
         function renderCustomWordsList() {
-            const container = document.getElementById('custom-words-list');
-            const countEl = document.getElementById('custom-set-count');
-            const activateBtn = document.getElementById('btn-activate-custom');
-            
-            countEl.innerText = customData.length;
+            const container = document.getElementById('custom-words-list'); const activateBtn = document.getElementById('btn-activate-custom');
+            document.getElementById('custom-set-count').innerText = customData.length;
+            if (customData.length === 0) { container.innerHTML = `<div class="text-center py-8 text-slate-400 text-sm"><p>Lijst is leeg.</p></div>`; activateBtn.classList.add('hidden'); return; }
 
-            if (customData.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-slate-400 text-sm">
-                        <p>Je hebt nog geen eigen woorden toegevoegd.</p>
-                        <p class="text-xs text-slate-400/80 mt-1">Vul hierboven velden in om je eigen set te bouwen!</p>
-                    </div>
-                `;
-                activateBtn.classList.add('hidden');
-
-                return;
-            }
-
-            activateBtn.classList.remove('hidden');
-
-            container.innerHTML = '';
+            activateBtn.classList.remove('hidden'); container.innerHTML = '';
             customData.forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = "flex items-center justify-between py-3 px-2 hover:bg-slate-50 rounded-xl transition-colors gap-4";
-                row.innerHTML = `
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold text-slate-900 truncate">${item.french}</p>
-                        <p class="text-xs text-slate-400 truncate">Betekenis: ${item.num}</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="deleteCustomWord(${index})" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors" title="Verwijder dit woord">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-
-                        </button>
-                    </div>
-                `;
+                const row = document.createElement('div'); row.className = "flex items-center justify-between py-2 px-2 hover:bg-slate-50 rounded-xl gap-4";
+                row.innerHTML = `<div class="flex-1 min-w-0"><p class="text-sm font-semibold text-slate-900 truncate">${item.french}</p><p class="text-xs text-slate-400 truncate">Betekenis: ${item.num}</p></div><button onclick="deleteCustomWord(${index})" class="text-slate-400 hover:text-rose-600 p-1"><svg xmlns="http://www.w3.org/2000/xl font-semibold animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>`;
                 container.appendChild(row);
             });
         }
-
-        function activateCustomSet() {
-            if (customData.length === 0) {
-                showToast("Voeg eerst woorden toe voordat je de set activeert!", "error");
-                return;
-            }
-            activeData = [...customData];
-            isCustomActive = true;
-            
-            refreshActiveDatasetState();
-            showToast("Je aangepaste woordenlijst is nu geactiveerd!", "success");
-            switchTab('study');
-        }
-
-
-        function resetToDefault() {
-            activeData = [...numbersData];
-            isCustomActive = false;
-            
-            refreshActiveDatasetState();
-            showToast("Standaard getallen 0-20 hersteld.", "info");
-            switchTab('study');
-        }
+        function activateCustomSet() { if (customData.length === 0) return; activeData = [...customData]; isCustomActive = true; refreshActiveDatasetState(); showToast("Eigen lijst geactiveerd!", "success"); switchTab('study'); }
+        function resetToDefault() { activeData = [...numbersData]; isCustomActive = false; refreshActiveDatasetState(); showToast("Standaard getallen hersteld.", "info"); switchTab('study'); }
     </script>
 </body>
 </html>
